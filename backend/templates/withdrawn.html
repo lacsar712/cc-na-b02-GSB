@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}已撤回 · 航标灯光巡检台{% endblock %}
+{% block body %}
+<h1>已撤回</h1>
+<table>
+  <thead><tr><th>编号</th><th>实测光强</th><th>结论</th><th>撤回原因</th><th>撤回人</th><th></th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+    <tr>
+      <td>{{ row.aid_code }}</td>
+      <td>{{ row.measured_cd }}</td>
+      <td class="{% if row.verdict == '合格' %}ok{% else %}bad{% endif %}">{{ row.verdict }}</td>
+      <td>{{ row.withdraw_reason }}</td>
+      <td>{{ row.withdrawn_by }}</td>
+      <td><a href="{% url 'detail' row.pk %}">详情</a></td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="6">没有已撤回的记录</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

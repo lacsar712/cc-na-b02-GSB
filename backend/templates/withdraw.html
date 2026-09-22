@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>撤回 {{ row.aid_code }}</h1>
+<p class="{% if row.verdict == '合格' %}ok{% else %}bad{% endif %}">{{ row.verdict }} · {{ row.note }}</p>
+<p>实测光强 {{ row.measured_cd }}，要求 {{ row.required_cd }}，方位偏差 {{ row.bearing_error_deg }} 度</p>
+{% if error %}<p class="err">{{ error }}</p>{% endif %}
+<form class="card" method="post">
+  {% csrf_token %}
+  <label>撤回原因（必填）</label>
+  <input name="reason" />
+  <button type="submit">确认撤回</button>
+</form>
+<p><a href="{% url 'detail' row.pk %}">返回详情</a></p>
+{% endblock %}

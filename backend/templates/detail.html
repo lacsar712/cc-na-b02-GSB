@@ -4,5 +4,17 @@
 <p class="{% if row.verdict == '合格' %}ok{% else %}bad{% endif %}">{{ row.verdict }} · {{ row.note }}</p>
 <p>实测光强 {{ row.measured_cd }}，要求 {{ row.required_cd }}，方位偏差 {{ row.bearing_error_deg }} 度</p>
 <p>登记人 {{ row.created_by }}</p>
+{% if row.withdrawn_at %}
+  <p class="bad">已撤回：{{ row.withdraw_reason }}（{{ row.withdrawn_by }} 于 {{ row.withdrawn_at|date:"Y-m-d H:i" }}）</p>
+{% endif %}
+{% if can_withdraw %}
+  <h2>撤回该记录</h2>
+  <form class="card" method="post" action="{% url 'withdraw' row.pk %}">
+    {% csrf_token %}
+    <label>撤回原因（必填）</label>
+    <input name="reason" />
+    <button type="submit">撤回</button>
+  </form>
+{% endif %}
 <p><a href="{% url 'list' %}">返回列表</a></p>
 {% endblock %}

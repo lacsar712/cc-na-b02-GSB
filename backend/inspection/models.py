@@ -10,6 +10,9 @@ class Inspection(models.Model):
     note = models.CharField("说明", max_length=200)
     created_by = models.CharField("登记人", max_length=64)
     created_at = models.DateTimeField(auto_now_add=True)
+    withdrawn_by = models.CharField("撤回人", max_length=64, blank=True, default="")
+    withdraw_reason = models.CharField("撤回原因", max_length=200, blank=True, default="")
+    withdrawn_at = models.DateTimeField("撤回时间", null=True, blank=True)
 
     class Meta:
         ordering = ["-id"]
