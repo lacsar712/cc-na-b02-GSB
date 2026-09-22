@@ -1,24 +1,21 @@
 {% extends "base.html" %}
 {% block body %}
-<h1>巡检记录</h1>
+<h1>已撤回记录</h1>
 <table>
-  <thead><tr><th>编号</th><th>实测光强</th><th>结论</th><th>说明</th><th></th><th></th></tr></thead>
+  <thead><tr><th>编号</th><th>实测光强</th><th>结论</th><th>撤回人</th><th>撤回时间</th><th>撤回原因</th><th></th></tr></thead>
   <tbody>
   {% for row in rows %}
     <tr>
       <td>{{ row.aid_code }}</td>
       <td>{{ row.measured_cd }}</td>
       <td class="{% if row.verdict == '合格' %}ok{% else %}bad{% endif %}">{{ row.verdict }}</td>
-      <td>{{ row.note }}</td>
+      <td>{{ row.revoked_by }}</td>
+      <td>{{ row.revoked_at|date:"Y-m-d H:i" }}</td>
+      <td>{{ row.revoke_reason }}</td>
       <td><a href="{% url 'detail' row.pk %}">详情</a></td>
-      <td>
-        {% if can_write and row.created_by == user.username %}
-          <a href="{% url 'revoke' row.pk %}">撤回</a>
-        {% endif %}
-      </td>
     </tr>
   {% empty %}
-    <tr><td colspan="6">还没有记录</td></tr>
+    <tr><td colspan="7">还没有撤回记录</td></tr>
   {% endfor %}
   </tbody>
 </table>

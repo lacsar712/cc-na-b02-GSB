@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>撤回实测 · {{ row.aid_code }}</h1>
+<form class="card" method="post">
+  {% csrf_token %}
+  <p class="{% if row.verdict == '合格' %}ok{% else %}bad{% endif %}">
+    {{ row.verdict }} · {{ row.note }}
+  </p>
+  <p>实测光强 {{ row.measured_cd }}，登记人 {{ row.created_by }}</p>
+  <label for="revoke_reason">撤回原因（必填）</label>
+  <input id="revoke_reason" name="revoke_reason" maxlength="200" value="" required />
+  {% if error %}<p class="err">{{ error }}</p>{% endif %}
+  <button type="submit">确认撤回</button>
+</form>
+<p><a href="{% url 'list' %}">返回列表</a></p>
+{% endblock %}
